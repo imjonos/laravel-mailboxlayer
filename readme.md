@@ -8,7 +8,14 @@ Via Composer
 
 ``` bash
 $ composer require imjonos/laravel-mailboxlayer
+```
 
+``` bash
+$ php artisan vendor:publish --provider="Nos\Mailboxlayer\MailboxlayerServiceProvider"
+```
+
+``` bash
+$ php artisan migrate
 ```
 
 ## Usage
