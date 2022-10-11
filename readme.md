@@ -11,6 +11,20 @@ $ composer require imjonos/laravel-mailboxlayer
 
 ```
 
+## Usage
+
+use Nos\Mailboxlayer\Rules\IsMxRecord;
+
+```
+public function rules(): array
+{
+    return [
+        'email' => ['required', new IsMxRecord()],
+    ];
+}
+
+```
+
 ## Contributing
 
 Please see [contributing.md](contributing.md) for details and a todolist.
