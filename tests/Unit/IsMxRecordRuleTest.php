@@ -2,24 +2,28 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use PHPUnit\Framework\TestCase;
+use Nos\Mailboxlayer\Rules\IsMxRecord;
+use Tests\TestCase;
 
 final class IsMxRecordRuleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      *
      * @return void
      * @throws ValidationException
      */
-    public function ruleTest(): void
+    public function test_rule(): void
     {
         $validator = Validator::make([
             'email' => 'info@toprogram.ru'
         ], [
-            'email' => 'email'
+            'email' => new IsMxRecord()
         ]);
 
         $validator->validate();

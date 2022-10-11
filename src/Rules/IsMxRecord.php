@@ -10,18 +10,6 @@ use Nos\Mailboxlayer\Services\MailboxEmailService;
 
 final class IsMxRecord implements Rule
 {
-    private MailboxEmailService $mailboxEmailService;
-
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct(MailboxEmailService $mailboxEmailService)
-    {
-        $this->mailboxEmailService = $mailboxEmailService;
-    }
-
     /**
      * Determine if the validation rule passes.
      *
@@ -44,11 +32,19 @@ final class IsMxRecord implements Rule
         $validator->validate();
 
         if (!$validator->fails()) {
-            $mailboxEmail = $this->mailboxEmailService->getByEmail($value);
+            $mailboxEmail = $this->getMailboxEmailService()->getByEmail($value);
             $result = $mailboxEmail->mx_records;
         }
 
         return $result;
+    }
+
+    /**
+     * @throws BindingResolutionException
+     */
+    private function getMailboxEmailService(): MailboxEmailService
+    {
+        return app()->make(MailboxEmailService::class);
     }
 
     /**

@@ -1,6 +1,6 @@
-# Laravel Mailboxlayer
+# Laravel Email Verification
 
-Validator based on api Mailboxlayer
+Validator based on api https://apilayer.com/marketplace/email_verification-api
 
 ## Installation
 
