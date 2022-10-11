@@ -1,6 +1,6 @@
 {
     "name": "imjonos/laravel-mailboxlayer",
-    "description": "Laravel mailboxlayer validators",
+    "description": "Laravel Email validators based on apilayer.com mail_verification-api",
     "license": "MIT",
     "authors": [
         {
