@@ -3,9 +3,10 @@
 namespace Nos\Mailboxlayer\Services;
 
 use Exception;
+use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Facades\Http;
+use LogicException;
 use Nos\BaseService\BaseService;
 use Nos\Mailboxlayer\Interfaces\Repositories\MailboxEmailRepositoryInterface;
 use Nos\Mailboxlayer\Models\MailboxEmail;
@@ -57,17 +58,24 @@ final class MailboxEmailService extends BaseService
     }
 
     /**
-     * @throws RequestException
+     * @throws GuzzleException
      */
     public function getEmailData(string $email): array
     {
-        $response = Http::withHeaders([
-            'Content-Type' => 'text/plain',
-            'apikey' => $this->apiKey
-        ])->get('https://api.apilayer.com/email_verification/' . $email);
+        $params = [
+            'headers' => [
+                'Content-Type' => 'text/plain',
+                'apikey' => $this->apiKey
+            ]
+        ];
 
-        $response->throw();
+        $client = new GuzzleHttpClient();
+        $response = $client->get('https://api.apilayer.com/email_verification/' . $email, $params);
 
-        return $response->json() ?? [];
+        if ($response->getStatusCode() !== 200) {
+            throw new LogicException('API request issue!');
+        }
+
+        return json_decode((string) $response->getBody());
     }
 }
