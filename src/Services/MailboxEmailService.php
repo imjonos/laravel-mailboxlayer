@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use Nos\CRUD\Services\BaseService;
+use Nos\BaseService\BaseService;
 use Nos\Mailboxlayer\Interfaces\Repositories\MailboxEmailRepositoryInterface;
 use Nos\Mailboxlayer\Models\MailboxEmail;
 
