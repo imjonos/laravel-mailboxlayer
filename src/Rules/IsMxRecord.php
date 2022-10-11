@@ -54,6 +54,6 @@ final class IsMxRecord implements Rule
      */
     public function message(): string
     {
-        return trans('nos.mailboxlayer::validation.email_not_correct');
+        return trans('nos.mailboxlayer::mailboxlayer.validation.email_not_correct');
     }
 }
