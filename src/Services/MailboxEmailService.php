@@ -28,7 +28,7 @@ final class MailboxEmailService extends BaseService
 
     /**
      * @throws BindingResolutionException
-     * @throws Exception
+     * @throws Exception|GuzzleException
      */
     public function getByEmail(string $email): MailboxEmail
     {
@@ -76,6 +76,6 @@ final class MailboxEmailService extends BaseService
             throw new LogicException('API request issue!');
         }
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string) $response->getBody(), true);
     }
 }
