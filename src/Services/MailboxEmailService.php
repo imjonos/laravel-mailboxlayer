@@ -3,11 +3,10 @@
 namespace Nos\Mailboxlayer\Services;
 
 use Exception;
-use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use LogicException;
 use Nos\BaseService\BaseService;
+use Nos\Mailboxlayer\Interfaces\Adapters\HttpClientAdapterInterface;
 use Nos\Mailboxlayer\Interfaces\Repositories\MailboxEmailRepositoryInterface;
 use Nos\Mailboxlayer\Models\MailboxEmail;
 
@@ -19,11 +18,11 @@ use Nos\Mailboxlayer\Models\MailboxEmail;
 final class MailboxEmailService extends BaseService
 {
     protected string $repositoryClass = MailboxEmailRepositoryInterface::class;
-    private string $apiKey;
+    private HttpClientAdapterInterface $httpClientAdapter;
 
-    public function __construct()
+    public function __construct(HttpClientAdapterInterface $httpClientAdapter)
     {
-        $this->apiKey = config('mailboxlayer.api_key');
+        $this->httpClientAdapter = $httpClientAdapter;
     }
 
     /**
@@ -57,25 +56,8 @@ final class MailboxEmailService extends BaseService
         return $mailboxEmail;
     }
 
-    /**
-     * @throws GuzzleException
-     */
     public function getEmailData(string $email): array
     {
-        $params = [
-            'headers' => [
-                'Content-Type' => 'text/plain',
-                'apikey' => $this->apiKey
-            ]
-        ];
-
-        $client = new GuzzleHttpClient();
-        $response = $client->get('https://api.apilayer.com/email_verification/' . $email, $params);
-
-        if ($response->getStatusCode() !== 200) {
-            throw new LogicException('API request issue!');
-        }
-
-        return json_decode((string) $response->getBody(), true);
+        return $this->httpClientAdapter->get('https://api.apilayer.com/email_verification/' . $email);
     }
 }

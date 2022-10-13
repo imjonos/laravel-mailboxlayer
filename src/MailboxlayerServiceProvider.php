@@ -3,6 +3,8 @@
 namespace Nos\Mailboxlayer;
 
 use Illuminate\Support\ServiceProvider;
+use Nos\Mailboxlayer\Adapters\GuzzleHttpClientAdapter;
+use Nos\Mailboxlayer\Interfaces\Adapters\HttpClientAdapterInterface;
 use Nos\Mailboxlayer\Interfaces\Repositories\MailboxEmailRepositoryInterface;
 use Nos\Mailboxlayer\Repositories\MailboxEmailRepository;
 
@@ -53,6 +55,7 @@ final class MailboxlayerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/mailboxlayer.php', 'mailboxlayer');
         $this->app->bind(MailboxEmailRepositoryInterface::class, MailboxEmailRepository::class);
+        $this->app->bind(HttpClientAdapterInterface::class, GuzzleHttpClientAdapter::class);
     }
 
     /**
